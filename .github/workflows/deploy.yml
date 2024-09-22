@@ -1,0 +1,105 @@
+name: Test Project Workflow
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'adapters/**'
+      - 'writer/**'
+      - 'config.yml'
+      - 'main_script.py'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'adapters/**'
+      - 'writer/**'
+      - 'config.yml'
+      - 'main_script.py'
+
+jobs:
+  determine-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      adapters_changed: ${{ steps.check_outputs.outputs.adapters_changed }}
+      writer_changed: ${{ steps.check_outputs.outputs.writer_changed }}
+      config_changed: ${{ steps.check_outputs.outputs.config_changed }}
+      both_changed: ${{ steps.check_outputs.outputs.both_changed }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Determine changed files
+        id: check_outputs
+        run: |
+          adapters_changed=false
+          writer_changed=false
+          config_changed=false
+          both_changed=false
+
+          changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+          
+          echo "Changed files: $changed_files"
+
+          if echo "$changed_files" | grep -q 'adapters/'; then
+            adapters_changed=true
+          fi
+
+          if echo "$changed_files" | grep -q 'writer/'; then
+            writer_changed=true
+          fi
+
+          if echo "$changed_files" | grep -q 'config.yml'; then
+            config_changed=true
+          fi
+
+          if [[ "$writer_changed" == true && "$config_changed" == true ]]; then
+            both_changed=true
+          fi
+
+          echo "adapters_changed=$adapters_changed" >> $GITHUB_OUTPUT
+          echo "writer_changed=$writer_changed" >> $GITHUB_OUTPUT
+          echo "config_changed=$config_changed" >> $GITHUB_OUTPUT
+          echo "both_changed=$both_changed" >> $GITHUB_OUTPUT
+
+  run-tests:
+    needs: determine-changes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          # Install your project dependencies
+          pip install -r requirements.txt  # If using Python
+          # Add other install commands as needed
+
+      - name: Run tests when both writer and config changed
+        if: needs.determine-changes.outputs.both_changed == 'true'
+        run: |
+          echo "Both writer and config changed. Running all adapters."
+          # Run all adapters with the updated writer
+          # Example command:
+          python run_all_adapters.py --writer updated_writer
+
+      - name: Run tests for only changed adapters and config
+        if: needs.determine-changes.outputs.both_changed != 'true'
+        run: |
+          if [[ "${{ needs.determine-changes.outputs.writer_changed }}" == "true" ]]; then
+            echo "Writer changed. Running all adapters."
+            # Run all adapters
+            python run_all_adapters.py
+          elif [[ "${{ needs.determine-changes.outputs.config_changed }}" == "true" ]]; then
+            echo "Config changed. Running affected adapters."
+            # Run affected adapters based on the config change
+            python run_affected_adapters.py --config updated_config.yml
+          elif [[ "${{ needs.determine-changes.outputs.adapters_changed }}" == "true" ]]; then
+            echo "Adapters changed. Running only the changed adapters."
+            # Run only the changed adapters
+            python run_changed_adapters.py
+          else
+            echo "No significant changes detected. Skipping tests."
