@@ -5,18 +5,18 @@ on:
     branches:
       - master
     paths:
-      - 'adapters/**'
-      - 'writer/**'
-      - 'config.yml'
-      - 'main_script.py'
+      - 'biocypher_metta/adapters/**'
+      - 'biocypher_metta/metta_writer.py'
+      - 'config/**'
+      - 'create_knowledge_graph.py'
   pull_request:
     branches:
       - master
     paths:
-      - 'adapters/**'
-      - 'writer/**'
-      - 'config.yml'
-      - 'main_script.py'
+      - 'biocypher_metta/adapters/**'
+      - 'biocypher_metta/metta_writer.py'
+      - 'config/**'
+      - 'create_knowledge_graph.py'
 
 jobs:
   determine-changes:
@@ -29,7 +29,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Determine changed files
         id: check_outputs
@@ -43,15 +43,15 @@ jobs:
           
           echo "Changed files: $changed_files"
 
-          if echo "$changed_files" | grep -q 'adapters/'; then
+          if echo "$changed_files" | grep -q 'biocypher_metta/adapters/**'; then
             adapters_changed=true
           fi
 
-          if echo "$changed_files" | grep -q 'writer/'; then
+          if echo "$changed_files" | grep -q 'biocypher_metta/metta_writer.py'; then
             writer_changed=true
           fi
 
-          if echo "$changed_files" | grep -q 'config.yml'; then
+          if echo "$changed_files" | grep -q 'config/**'; then
             config_changed=true
           fi
 
@@ -71,6 +71,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+    
 
       - name: Install dependencies
         run: |
