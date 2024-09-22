@@ -3,7 +3,7 @@ name: Test Project Workflow
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - 'adapters/**'
       - 'writer/**'
@@ -11,7 +11,7 @@ on:
       - 'main_script.py'
   pull_request:
     branches:
-      - main
+      - master
     paths:
       - 'adapters/**'
       - 'writer/**'
