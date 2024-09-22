@@ -74,9 +74,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          # Install your project dependencies
-          pip install -r requirements.txt  # If using Python
-          # Add other install commands as needed
+          
+          pip install -r requirements.txt  
+          
 
       - name: Run tests when both writer and config changed
         if: needs.determine-changes.outputs.both_changed == 'true'
