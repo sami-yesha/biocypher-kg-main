@@ -76,7 +76,7 @@ jobs:
       - name: Install dependencies
         run: |
           
-          pip install -r requirements.txt  
+          pip install -r poetry.lock  
           
 
       - name: Run tests when both writer and config changed

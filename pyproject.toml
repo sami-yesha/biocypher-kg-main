@@ -1,5 +1,6 @@
 [tool.poetry]
 name = "biocypher-metta"
+homepage="https://sami-yesha.github.io/biocypher-kg-main"
 version = "0.0.1"
 description = "Library creating a BioCypher-driven knowledge graph for Opencog Hyperon"
 authors = [
