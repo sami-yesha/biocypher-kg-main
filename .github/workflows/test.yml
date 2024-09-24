@@ -38,7 +38,7 @@ jobs:
       - name: Install PyYAML
         run: pip install PyYAML
       - id: get-changes
-        run: |
+        run: | 
           CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
           echo "Changed files:"
           echo "$CHANGED_FILES"
