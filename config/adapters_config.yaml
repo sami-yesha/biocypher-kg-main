@@ -4,14 +4,14 @@ on:
   push:
     branches: [master]
     paths:
-      - 'biocypher_metta/adapters/**'
+      - 'biocypher_metta/adapters/abc_adapter.py'
       - 'biocypher_metta/metta_writer.py'
       - 'config/adapters_config.yaml'
       - 'create_knowledge_graph.py'
   pull_request:
     branches: [master]
     paths:
-      - 'biocypher_metta/adapters/**'
+      - 'biocypher_metta/adapters/abc_adapter.py'
       - 'biocypher_metta/metta_writer.py'
       - 'config/adapters_config.yaml'
       - 'create_knowledge_graph.py'
