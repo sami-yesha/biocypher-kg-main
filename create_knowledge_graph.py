@@ -19,10 +19,7 @@ def get_writer(writer_type: str, output_dir: pathlib.Path):
         return MeTTaWriter(schema_config="config/schema_config.yaml",
                            biocypher_config="config/biocypher_config.yaml",
                            output_dir=output_dir)
-    elif writer_type == 'prolog':
-        return PrologWriter(schema_config="config/schema_config.yaml",
-                            biocypher_config="config/biocypher_config.yaml",
-                            output_dir=output_dir)
+   
     elif writer_type == 'neo4j':
         return Neo4jCSVWriter(schema_config="config/schema_config.yaml",
                             biocypher_config="config/biocypher_config.yaml",
