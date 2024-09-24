@@ -8,7 +8,7 @@ gencode_gene:
 
   outdir: gencode/gene
   nodes: True
-  edges: False
+  
 
 
 gencode_transcripts:
