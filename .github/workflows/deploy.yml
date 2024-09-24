@@ -15,7 +15,7 @@ on:
     paths:
       - 'biocypher_metta/adapters/**'
       - 'biocypher_metta/metta_writer.py'
-      - 'config/**'
+      - 'config/adabters_config.yml'
       - 'create_knowledge_graph.py'
 
 jobs:
@@ -104,3 +104,11 @@ jobs:
             python run_changed_adapters.py
           else
             echo "No significant changes detected. Skipping tests."
+
+
+
+
+
+
+
+            
