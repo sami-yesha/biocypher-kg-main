@@ -143,7 +143,9 @@ jobs:
             echo "Current writer: $CURRENT_WRITER"
             echo "Config changed: $CONFIG_CHANGED"
             echo "Main script changed: $MAIN_SCRIPT_CHANGED"
-  
+            
+            # Create the output directory if it doesn't exist
+            mkdir -p output
             if [ "$MAIN_SCRIPT_CHANGED" == "true" ]; then
             echo "Running with full sample config due to main script change"
             poetry run python create_knowledge_graph.py --output-dir output --adapters-config config/adapters_config_sample.yaml --dbsnp-rsids aux_files/ensembl_to_hgnc.pkl --dbsnp-pos aux_files/hgnc_to_ensembl.pkl --writer-type $CURRENT_WRITER
