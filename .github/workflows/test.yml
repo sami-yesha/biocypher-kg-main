@@ -88,27 +88,16 @@ jobs:
           python run_all_adapters.py --writer updated_writer
 
       - name: Run tests for only changed adapters and config
-        if: needs.determine-changes.outputs.both_changed != 'true'
+        if: ${{ needs.determine-changes.outputs.both_changed != 'true' }}
         run: |
           if [[ "${{ needs.determine-changes.outputs.writer_changed }}" == "true" ]]; then
             echo "Writer changed. Running all adapters."
-            # Run all adapters
             python run_all_adapters.py
           elif [[ "${{ needs.determine-changes.outputs.config_changed }}" == "true" ]]; then
             echo "Config changed. Running affected adapters."
-            # Run affected adapters based on the config change
             python run_affected_adapters.py --config updated_config.yml
           elif [[ "${{ needs.determine-changes.outputs.adapters_changed }}" == "true" ]]; then
             echo "Adapters changed. Running only the changed adapters."
-            # Run only the changed adapters
             python run_changed_adapters.py
           else
             echo "No significant changes detected. Skipping tests."
-
-
-
-
-
-
-
-            
