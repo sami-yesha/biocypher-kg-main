@@ -15,7 +15,7 @@ on:
     paths:
       - 'biocypher_metta/adapters/**'
       - 'biocypher_metta/metta_writer.py'
-      - 'config/adabters_config.yml'
+      - 'config/adabters_config.yaml'
       - 'create_knowledge_graph.py'
 
 jobs:
@@ -51,7 +51,7 @@ jobs:
             writer_changed=true
           fi
 
-          if echo "$changed_files" | grep -q 'config/**'; then
+          if echo "$changed_files" | grep -q 'config/adapters_config.yaml'; then
             config_changed=true
           fi
 
