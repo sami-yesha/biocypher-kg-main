@@ -27,7 +27,8 @@ def get_writer(writer_type: str, output_dir: pathlib.Path):
         return Neo4jCSVWriter(schema_config="config/schema_config.yaml",
                             biocypher_config="config/biocypher_config.yaml",
                             output_dir=output_dir)
-    
+    else:
+        raise ValueError(f"Unknown writer type: {writer_type}")
 
 # Run build
 @app.command()
