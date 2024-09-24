@@ -30,7 +30,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/setup-python@v3
-
+        
       - name: Determine changed files
         id: check_outputs
         run: |
@@ -39,7 +39,8 @@ jobs:
           config_changed=false
           both_changed=false
 
-          changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+          changed_files=$(git diff --name-only "${{ github.event.before || 'HEAD^' }}" "${{ github.sha }}")
+
           
           echo "Changed files: $changed_files"
 
@@ -71,7 +72,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/setup-python@v3
-    
+      
 
       - name: Install dependencies
         run: |
